@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111318">
+  <meta name="description" content="A local Vampire: The Masquerade chronicle for one player.">
+  <title>Seneschal · Chronicle</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-interaction-mode="storyteller">
+  <a class="skip-link" href="#chronicle">Skip to chronicle</a>
+  <div class="app-shell" id="app">
+    <header class="topbar">
+      <a class="brand-lockup" href="#chronicle" aria-label="Seneschal home">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span>
+          <span class="eyebrow">Vampire: The Masquerade</span>
+          <span class="brand-name">Seneschal</span>
+        </span>
+      </a>
+      <div class="topbar-actions">
+        <span class="connection-state" id="connection-state" data-state="connecting">
+          <span class="connection-dot" aria-hidden="true"></span>
+          <span id="connection-label">Connecting locally</span>
+        </span>
+        <button class="button button-quiet" id="settings-button" type="button" aria-controls="settings-panel" aria-expanded="false">
+          <span aria-hidden="true">⚙</span><span>Settings</span>
+        </button>
+        <button class="button button-quiet" id="chronicles-button" type="button" aria-controls="chronicles-drawer" aria-expanded="false">
+          <span aria-hidden="true">☰</span><span>Chronicles</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="chronicle" class="chronicle-layout" tabindex="-1">
+      <aside class="rail rail-left" aria-label="Character dossier">
+        <section class="panel profile-panel" aria-labelledby="character-heading">
+          <div class="panel-kicker">Player character</div>
+          <div class="character-heading-row">
+            <div>
+              <h2 id="character-heading">Awaiting chronicle</h2>
+              <p class="muted" id="character-clan">Local session</p>
+            </div>
+            <span class="status-seal" id="character-status">—</span>
+          </div>
+          <div class="track-group" aria-label="Character tracks">
+            <div class="track-line">
+              <div class="track-label"><span>Hunger</span><strong id="hunger-value">—</strong></div>
+              <div class="pips" id="hunger-pips" role="img" aria-label="Hunger not available"></div>
+            </div>
+            <div class="track-line">
+              <div class="track-label"><span>Health</span><strong id="health-value">—</strong></div>
+              <div class="pips pips-health" id="health-pips" role="img" aria-label="Health not available"></div>
+            </div>
+            <div class="track-line">
+              <div class="track-label"><span>Willpower</span><strong id="willpower-value">—</strong></div>
+              <div class="pips pips-willpower" id="willpower-pips" role="img" aria-label="Willpower not available"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel dossier-panel" aria-labelledby="traits-heading">
+          <div class="section-title-row">
+            <h2 id="traits-heading">Dossier</h2>
+            <span class="section-rule" aria-hidden="true"></span>
+          </div>
+          <div class="dossier-columns">
+            <div><h3>Attributes</h3><dl class="stat-list" id="attributes-list"><div class="empty-note">No character loaded.</div></dl></div>
+            <div><h3>Skills</h3><dl class="stat-list" id="skills-list"><div class="empty-note">No character loaded.</div></dl></div>
+          </div>
+          <details class="dossier-details">
+            <summary>Condition</summary>
+            <p id="condition-copy" class="muted">No active condition reported.</p>
+          </details>
+          <details class="dossier-details" open>
+            <summary>Equipment</summary>
+            <ul class="compact-list" id="inventory-list"><li class="empty-note">Nothing recorded.</li></ul>
+          </details>
+          <details class="dossier-details" id="disciplines-details" hidden>
+            <summary>Disciplines</summary>
+            <ul class="compact-list" id="disciplines-list"></ul>
+          </details>
+          <details class="dossier-details" id="backgrounds-details" hidden>
+            <summary>Backgrounds</summary>
+            <ul class="compact-list" id="backgrounds-list"></ul>
+          </details>
+          <details class="dossier-details" id="havens-details" hidden>
+            <summary>Havens</summary>
+            <ul class="compact-list" id="havens-list"></ul>
+          </details>
+        </section>
+
+        <section class="panel journal-panel" aria-labelledby="journal-heading">
+          <div class="section-title-row"><h2 id="journal-heading">Journal</h2><span class="section-rule" aria-hidden="true"></span></div>
+          <div class="journal-list" id="journal-list"><p class="empty-note">Your notes will appear here.</p></div>
+        </section>
+      </aside>
+
+      <section class="story-column" aria-label="Chronicle story">
+        <section class="panel story-header" aria-labelledby="chronicle-title">
+          <div class="story-title-block">
+            <p class="panel-kicker" id="chronicle-kicker">Chronicle</p>
+            <h1 id="chronicle-title">No chronicle selected</h1>
+            <p class="muted" id="chronicle-briefing">Create or resume a local chronicle to begin.</p>
+          </div>
+          <div class="story-meta" aria-label="Current chronicle status">
+            <div><span class="meta-label">Time</span><strong id="story-time">—</strong></div>
+            <div><span class="meta-label">Place</span><strong id="story-location">—</strong></div>
+          </div>
+        </section>
+
+        <section class="panel narration-status" id="narration-status" hidden aria-live="polite">
+          <span class="status-spinner" aria-hidden="true"></span>
+          <span id="narration-status-copy">The city keeps moving while you decide.</span>
+        </section>
+
+        <section class="combat-banner panel" id="combat-banner" hidden aria-live="polite" aria-labelledby="combat-heading">
+          <div class="combat-emblem" aria-hidden="true">†</div>
+          <div class="combat-copy"><div class="panel-kicker">Conflict state</div><h2 id="combat-heading">Conflict in progress</h2><p id="combat-status-copy">Say what you do next.</p></div>
+          <div class="combat-round" id="combat-round">—</div>
+          <button class="button button-secondary combat-continue" id="continue-button" type="button">Continue</button>
+        </section>
+
+        <section class="transcript panel" aria-labelledby="transcript-heading">
+          <div class="section-title-row transcript-heading-row">
+            <div><div class="panel-kicker">Public chronicle</div><h2 id="transcript-heading">The night unfolds</h2></div>
+            <span class="live-indicator" id="transcript-live">Local record</span>
+          </div>
+          <div class="transcript-scroll" id="transcript" aria-live="polite" aria-relevant="additions text">
+            <div class="empty-transcript"><span class="empty-glyph" aria-hidden="true">◌</span><p>Nothing has happened in this chronicle yet.</p><span class="muted">Your actions and the story will appear here.</span></div>
+          </div>
+        </section>
+
+        <section class="panel clarification-panel" id="clarification-panel" hidden aria-live="polite" aria-labelledby="clarification-heading">
+          <div class="clarification-mark" id="clarification-mark" aria-hidden="true">?</div>
+          <div class="clarification-copy">
+            <div class="panel-kicker" id="clarification-kicker">The Storyteller asks</div>
+            <h2 id="clarification-heading">Tell me how</h2>
+            <p id="clarification-copy">—</p>
+            <div class="proposal-original" id="proposal-original-block">
+              <span class="proposal-label">What you wrote</span>
+              <blockquote id="clarification-original">—</blockquote>
+            </div>
+            <div class="proposal-actions" id="proposal-actions">
+              <button class="button button-secondary" id="clarification-revise" type="button">Keep writing</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel plan-panel" id="plan-panel" hidden aria-labelledby="plan-heading">
+          <div class="section-title-row"><div><div class="panel-kicker">The Storyteller lays it out</div><h2 id="plan-heading">What this would take</h2></div></div>
+          <p class="plan-goal" id="plan-goal">—</p>
+          <ol class="plan-steps" id="plan-steps"></ol>
+          <p class="plan-note">Say if you want to go ahead, or change the approach.</p>
+        </section>
+
+        <section class="panel roll-panel" id="roll-panel" hidden aria-labelledby="roll-heading">
+          <div class="section-title-row"><div><div class="panel-kicker">Resolution paused</div><h2 id="roll-heading">The dice are on the table</h2></div><span class="roll-badge" id="roll-badge">—</span></div>
+          <p class="roll-attempt" id="roll-attempt">—</p>
+          <p class="roll-explainer" id="roll-explainer">—</p>
+          <div class="dice-groups">
+            <div class="dice-group"><div class="dice-group-heading"><span>Regular dice</span><span class="muted" id="regular-legal-copy">—</span></div><div class="dice-row" id="regular-dice" role="group" aria-label="Regular dice"></div></div>
+            <div class="dice-group hunger-group"><div class="dice-group-heading"><span>Hunger dice</span><span class="muted">Cannot be rerolled</span></div><div class="dice-row" id="hunger-dice" role="group" aria-label="Hunger dice"></div></div>
+          </div>
+          <div class="roll-actions"><button class="button button-primary" id="reroll-button" type="button" disabled>Spend Willpower · Reroll</button><button class="button button-secondary" id="resolve-button" type="button">Accept roll</button></div>
+          <p class="roll-legal-note" id="roll-legal-note">Choose up to three regular dice to reroll.</p>
+        </section>
+
+        <section class="panel ending-panel" id="ending-card" hidden aria-live="polite" aria-labelledby="ending-heading">
+          <div class="ending-mark" aria-hidden="true">✦</div><div class="ending-copy"><div class="panel-kicker">Chronicle closed</div><h2 id="ending-heading">The night has reached its ending</h2><p id="ending-summary">The record is complete.</p><dl class="ending-details"><div><dt>Outcome</dt><dd id="ending-outcome">—</dd></div></dl></div>
+        </section>
+
+        <form class="composer panel" id="composer-form" data-mode="storyteller">
+          <div class="dialogue-controls" id="dialogue-controls" hidden>
+            <div class="recipient-switch" role="group" aria-label="Choose who hears this message">
+              <span class="recipient-label">Addressing</span>
+              <button class="recipient-option" id="recipient-npc" type="button" aria-pressed="true">Character</button>
+              <button class="recipient-option" id="recipient-storyteller" type="button" aria-pressed="false">Storyteller</button>
+            </div>
+            <button class="button button-quiet dialogue-exit" id="dialogue-exit" type="button">Exit dialogue</button>
+          </div>
+          <label for="composer-input" class="composer-label"><span class="panel-kicker" id="composer-mode-label">Storyteller mode</span><span id="composer-label-copy">Say what you do in your own words. The scene will respond.</span></label>
+          <div class="composer-row"><textarea id="composer-input" name="text" rows="2" maxlength="2000" placeholder="Say what you do…" autocomplete="off" spellcheck="true"></textarea><button class="button button-primary composer-submit" id="composer-submit" type="submit">Send <span aria-hidden="true">↗</span></button></div>
+          <div class="composer-footer"><span class="muted" id="composer-help">Try anything. The Storyteller decides what it takes and what it costs.</span><span class="char-count" id="char-count">0 / 2000</span></div>
+        </form>
+
+        <details class="debug-panel" id="debug-panel">
+          <summary>Optional details</summary>
+          <div class="debug-content"><p class="muted">The Storyteller's private notebook: the story so far, the drift log and recent tool use. It contains spoilers. Normal play does not require this.</p><dl class="interpretation-list notebook-list" id="debug-detail-list"></dl></div>
+        </details>
+      </section>
+
+      <aside class="rail rail-right" aria-label="Scene dossier">
+        <section class="panel scene-panel" aria-labelledby="scene-heading">
+          <div class="panel-kicker">Current scene</div><h2 id="scene-heading">No scene selected</h2><p class="scene-copy" id="scene-copy">Scene details will follow the story.</p>
+          <div class="scene-divider"></div>
+          <div class="scene-subsection"><div class="section-title-row"><h3>People here</h3><span class="section-rule" aria-hidden="true"></span></div><ul class="person-list" id="visible-people"><li class="empty-note">No one else is visible.</li></ul></div>
+          <div class="scene-subsection"><div class="section-title-row"><h3>Exits</h3><span class="section-rule" aria-hidden="true"></span></div><div class="exit-list" id="exits-list"><span class="empty-note">No exits reported.</span></div></div>
+          <div class="scene-subsection" id="fiction-visible-objects-section" hidden><div class="section-title-row"><h3>Around you</h3><span class="section-rule" aria-hidden="true"></span></div><ul class="compact-list scene-object-list" id="fiction-visible-objects"></ul></div>
+          <section class="complication-notice" id="complication-notice" hidden aria-live="polite">
+            <div class="complication-mark" aria-hidden="true">!</div>
+            <div><h3 id="complication-heading">Unresolved complication</h3><p id="complication-copy">—</p></div>
+          </section>
+        </section>
+
+        <section class="panel premise-panel" aria-labelledby="premise-heading">
+          <div class="section-title-row"><h2 id="premise-heading">The premise</h2><span class="section-rule" aria-hidden="true"></span></div>
+          <p id="premise-copy" class="premise-copy">The situation will appear here when a chronicle is loaded.</p>
+          <div class="pressure-list" id="pressure-list" hidden></div>
+          <ul class="compact-list thread-list" id="thread-list" hidden></ul>
+        </section>
+
+        <section class="panel factual-panel" aria-labelledby="facts-heading"><details id="facts-details"><summary><span class="summary-label" id="facts-heading"><span class="summary-icon" aria-hidden="true">◇</span> Factual record</span><span class="summary-hint">Everything you know</span></summary><div class="facts-list" id="facts-list"><p class="empty-note">No facts have been recorded.</p></div></details></section>
+
+        <section class="panel local-panel" aria-labelledby="local-heading"><div class="section-title-row"><h2 id="local-heading">Local session</h2><span class="section-rule" aria-hidden="true"></span></div><dl class="local-details"><div><dt>Mode</dt><dd id="local-mode">—</dd></div><div><dt>Turn</dt><dd id="local-record">—</dd></div></dl><p class="muted local-note">The game stays on this machine. Use Chronicles to resume a saved night.</p></section>
+      </aside>
+    </main>
+
+    <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+    <aside class="drawer" id="chronicles-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-heading" aria-hidden="true" inert>
+      <div class="drawer-header"><div><div class="panel-kicker">Local records</div><h2 id="drawer-heading">Chronicles</h2></div><button class="icon-button" id="close-drawer" type="button" aria-label="Close chronicles">×</button></div>
+      <div class="drawer-content"><form class="new-chronicle" id="new-chronicle-form"><label for="new-chronicle-name">Begin a new chronicle</label><select class="story-select" id="new-chronicle-story" aria-label="Story"></select><div class="new-chronicle-row"><input id="new-chronicle-name" name="name" type="text" maxlength="120" autocomplete="off"><button class="button button-primary" type="submit">Begin</button></div><p class="muted" id="new-chronicle-pitch"></p></form><div class="drawer-rule" aria-hidden="true"></div><div class="saved-heading"><h3>Saved nights</h3><span class="muted" id="saved-count">—</span></div><div class="saved-games" id="saved-games"><p class="empty-note">Looking for local records…</p></div></div>
+    </aside>
+
+    <div class="settings-backdrop" id="settings-backdrop" hidden></div>
+    <aside class="settings-panel" id="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-heading" aria-describedby="settings-intro" aria-hidden="true" inert hidden>
+      <div class="settings-header">
+        <div><div class="panel-kicker">Local storyteller</div><h2 id="settings-heading">Settings</h2></div>
+        <button class="icon-button" id="close-settings" type="button" aria-label="Close settings">×</button>
+      </div>
+      <div class="settings-content">
+        <p class="settings-intro" id="settings-intro">Choose which model each role uses. Changes apply to future requests.</p>
+        <div class="settings-status" id="settings-status" role="status" aria-live="polite" hidden></div>
+        <form class="settings-form" id="settings-form">
+          <section class="settings-section" aria-labelledby="provider-profiles-heading">
+            <div class="section-title-row"><h3 id="provider-profiles-heading">Provider profiles</h3><span class="section-rule" aria-hidden="true"></span></div>
+            <p class="settings-help">API keys come from the server environment or <code>.env</code>. They are never displayed or edited here.</p>
+            <div class="provider-grid">
+              <section class="provider-card" data-provider="mistral" aria-labelledby="mistral-profile-heading">
+                <div class="provider-card-heading"><div><span class="panel-kicker">Profile</span><h4 id="mistral-profile-heading">Mistral</h4></div><span class="credential-status" id="mistral-credential-status" data-state="unknown">Checking…</span></div>
+                <div class="settings-field"><label class="field-label" for="mistral-model">Model ID</label><input class="settings-input" id="mistral-model" name="mistral-model" type="text" maxlength="100" autocomplete="off" spellcheck="false"></div>
+                <div class="settings-field"><label class="field-label" for="mistral-reasoning">Reasoning effort</label><select class="settings-select" id="mistral-reasoning" name="mistral-reasoning"></select></div>
+              </section>
+              <section class="provider-card" data-provider="openai" aria-labelledby="openai-profile-heading">
+                <div class="provider-card-heading"><div><span class="panel-kicker">Profile</span><h4 id="openai-profile-heading">OpenAI</h4></div><span class="credential-status" id="openai-credential-status" data-state="unknown">Checking…</span></div>
+                <div class="settings-field"><label class="field-label" for="openai-model">Model ID</label><input class="settings-input" id="openai-model" name="openai-model" type="text" maxlength="100" autocomplete="off" spellcheck="false"></div>
+                <div class="settings-field"><label class="field-label" for="openai-reasoning">Reasoning effort</label><select class="settings-select" id="openai-reasoning" name="openai-reasoning"></select></div>
+              </section>
+            </div>
+            <p class="settings-note">A PROVIDED status only means a key is present. It does not confirm the model or the account works.</p>
+          </section>
+
+          <section class="settings-section" aria-labelledby="role-routing-heading">
+            <div class="section-title-row"><h3 id="role-routing-heading">Role routing</h3><span class="section-rule" aria-hidden="true"></span></div>
+            <p class="settings-help">Assign each role independently. Offline uses a canned script for trying the interface; it has no judgement.</p>
+            <div class="role-grid">
+              <div class="settings-field role-field"><label class="field-label" for="role-storyteller">Storyteller</label><select class="settings-select role-select" id="role-storyteller" name="role-storyteller" data-role="storyteller"></select><p class="field-help">Judges what you try, voices every character and tells the story. Use your strongest model here.</p></div>
+              <div class="settings-field role-field"><label class="field-label" for="role-director">Director</label><select class="settings-select role-select" id="role-director" name="role-director" data-role="director"></select><p class="field-help">Works between scenes: moves the world offscreen, keeps the story so far and watches for drift.</p></div>
+            </div>
+          </section>
+
+          <div class="settings-footer">
+            <div class="settings-actions"><button class="button button-quiet" id="settings-discard" type="button">Discard edits</button><button class="button button-secondary" id="settings-reload" type="button">Reload from server</button><button class="button button-primary" id="settings-save" type="submit">Save settings</button></div>
+          </div>
+        </form>
+      </div>
+    </aside>
+
+    <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+    <div class="busy-bar" id="busy-bar" hidden><span class="busy-spinner" aria-hidden="true"></span><span id="busy-copy">The Storyteller is thinking…</span></div>
+    <div class="sr-only" id="announcer" aria-live="assertive" aria-atomic="true"></div>
+  </div>
+  <script src="app.js" defer></script>
+</body>
+</html>

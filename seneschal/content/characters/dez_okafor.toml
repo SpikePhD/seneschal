@@ -1,0 +1,8 @@
+name = "Dez Okafor"
+description = "A mortal veterinary nurse with tired eyes, a chipped mug, and scrubs covered in cat hair."
+personality = "Warm, overworked, and sharper than she lets on"
+motive = "Pay off her brother's debts without asking where the money comes from"
+plan = "Finish the night shift at the Lakeview Animal Clinic"
+voice = "Fast and teasing, and she swears gently."
+attitude = "Fond of Alex, who pays cash and asks for odd favours"
+knows = ["Alex is strange and pays well", "The clinic's after-hours alarm code", "How to run and read the x-ray machine"]

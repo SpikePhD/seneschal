@@ -1,0 +1,8 @@
+name = "Harlan Voss"
+description = "A Ventrue notary in a grey overcoat. Immaculate, patient, and never quite looking at you."
+personality = "Courteous, precise, contemptuous of anyone who can be spent"
+motive = "Rise in the Prince's court by delivering a rival's disgrace"
+plan = "Let the courier carry the box into the Sheriff's trap, then deny everything"
+voice = "Formal, unhurried, and fond of legal phrasing. He never raises his voice."
+attitude = "Regards the courier as a tool with a known price"
+knows = ["What is in the box", "That the crypt delivery is an ambush", "That Rook is following the courier"]

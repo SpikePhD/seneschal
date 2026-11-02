@@ -1,0 +1,8 @@
+name = "Sister Agnes"
+description = "A gaunt woman in a lay sister's grey, with ink-stained fingers and a very steady gaze."
+personality = "Dry, devout in her own way, slow to trust, and loyal once she does"
+motive = "Keep her small flock of unaligned Kindred out of the court's reach"
+plan = "Wait in the crypt until three, expecting a harmless shipment of forged papers"
+voice = "Quiet and dry. Short sentences, and scripture quoted a little wrong on purpose."
+attitude = "Wary of couriers and of anything Voss touches"
+knows = ["Voss owes her for an old favour and says this box repays it", "The tunnels under St. Brigid's"]

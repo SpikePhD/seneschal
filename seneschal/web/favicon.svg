@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Storyteller">
+  <rect width="64" height="64" rx="10" fill="#0d0f12"/>
+  <path d="M32 10 37 26 54 32 37 38 32 54 27 38 10 32 27 26Z" fill="#9f2e3d"/>
+  <path d="m32 17 3 12 12 3-12 3-3 12-3-12-12-3 12-3Z" fill="#d9d1c4"/>
+</svg>

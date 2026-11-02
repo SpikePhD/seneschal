@@ -1,0 +1,150 @@
+title = "The Box"
+default_name = "The Box"
+kicker = "One night in Chicago"
+pitch = "Deliver a sealed box across the city before three, and do not open it."
+briefing = "A sealed steel box, a stranger's fee, and a crypt across the city by three."
+premise = "Harlan Voss has paid you to carry a sealed steel box to Sister Agnes in the crypt under St. Brigid's before 03:00. Do not open it. Do not ask. Half the fee is already in your pocket."
+spine = "A courier is handed something dangerous by someone who considers them disposable. The question of the night is what Alex does upon finding that out: deliver, betray, bargain or run. Every path should cost something, and Voss, Agnes and the Sheriff should all still matter at the end."
+tone = "Rain-wet modern noir. Quiet menace, dry humour, and consequences that stick."
+opening = """The rain has been at it since sundown. An hour ago, in an office that smelled of paper and old money, Harlan Voss slid a steel box across his desk and counted half your fee beside it. "St. Brigid's. The crypt. Sister Agnes, before three." He did not look up. "It is sealed. It stays sealed. You will not be paid to be curious."
+
+Now it's on your table in Pilsen, heavier than it has any right to be, and very slightly cold. The van is outside. The night is young, by your standards. What do you do?"""
+start_minute = 1395  # 23:15
+
+journal = [
+    "Voss's terms: the crypt under St. Brigid's, before 03:00. Sealed on arrival. No questions.",
+    "Half paid. The other half on delivery.",
+]
+
+facts = [
+    "The box is the size of a large shoebox and weighs about twenty kilos. The lid is sealed with lead.",
+]
+
+[player]
+name = "Alex Marlow"
+clan = "Brujah"
+concept = "Courier who works for whoever pays, and has started to wonder why that keeps going badly."
+location = "haven"
+hunger = 2
+backgrounds = ["Haven 1: a basement flat in Pilsen", "Contacts 1: Dez Okafor, a veterinary nurse", "Resources 1"]
+havens = ["Basement flat in Pilsen"]
+
+[player.attributes]
+strength = 3
+dexterity = 3
+stamina = 2
+charisma = 2
+manipulation = 2
+composure = 3
+intelligence = 2
+wits = 3
+resolve = 2
+
+[player.skills]
+athletics = 2
+brawl = 2
+drive = 2
+larceny = 2
+stealth = 2
+streetwise = 2
+subterfuge = 1
+awareness = 2
+investigation = 1
+technology = 1
+medicine = 1
+persuasion = 1
+insight = 1
+
+[player.disciplines]
+Potence = 1
+Celerity = 1
+Presence = 1
+
+[places.haven]
+name = "Your flat in Pilsen"
+description = "A basement flat with blacked-out windows, a mattress, a hot plate you have no use for, and a workbench of half-repaired things."
+exits = ["street"]
+
+[places.street]
+name = "18th Street"
+description = "Wet asphalt and shuttered taquerias. Your van is parked at the kerb. From here, the whole city is a short drive."
+exits = ["haven", "st_brigids"]
+
+[places.lakeview_clinic]
+name = "Lakeview Animal Clinic"
+description = "A small veterinary clinic on a quiet street, open late for emergencies, with its lights on at the back. Twenty minutes north of Pilsen."
+exits = ["street"]
+
+[places.st_brigids]
+name = "St. Brigid's"
+description = "A shuttered parish church on the South Side, with a rusted gate and a side door down to the crypt. Twenty-five minutes from Pilsen."
+exits = ["street"]
+
+[places.voss_office]
+name = "Voss & Partners, Notaries"
+description = "A panelled office high in the Loop. Paper, old money, and a view nobody is meant to enjoy."
+exits = ["street"]
+
+[items.box]
+name = "The sealed steel box"
+description = "Heavy, cold to the touch, and seamed with dull lead. It has no markings, except for a notary's stamp across the seal."
+at = "player"
+
+[items.van]
+name = "Your van"
+description = "A dented white Ford van that nobody ever looks at twice."
+at = "street"
+
+[[cast]]
+character = "harlan_voss"
+location = "voss_office"
+
+[[cast]]
+character = "sister_agnes"
+location = "st_brigids"
+
+[[cast]]
+character = "rook"
+location = "street"
+visible = false
+
+[[cast]]
+character = "dez_okafor"
+location = "lakeview_clinic"
+
+[secrets.box_contents]
+truth = "Inside is a glass cylinder of elder vitae, stolen from the Prince's own reserve, packed in cold gel. A mercury tilt switch and a small battery are wired to a thermite charge beneath it. An x-ray shows a cylinder, wiring, a battery, a small glass bulb, and a dense block beneath them. Forcing the lid or tipping the box past about forty-five degrees sets off the charge: it burns the vitae and whoever is holding the box (Aggravated damage)."
+reveal_when = "An x-ray or similar shows the shapes. Understanding the switch and charge takes an expert or a good Technology or Science roll. Identifying the blood as elder vitae needs a taste, a Blood Sorcery ritual, or a confession from Voss."
+
+[secrets.the_setup]
+truth = "Voss stole the vitae and tipped off the Sheriff. The Sheriff's people will raid the crypt at 03:00 and find the stolen vitae in Sister Agnes's hands, carried by a courier nobody will miss. That destroys Agnes's flock and clears Voss's path at court. The thermite is there so that, if things go wrong, the evidence and the courier burn together."
+reveal_when = "Confronting Voss with leverage, overhearing the Sheriff's people, or persuading Rook that she is being used."
+
+[secrets.rook_tail]
+truth = "Rook has been following Alex since Voss's office, from a grey sedan, and reports every stop to the Sheriff."
+reveal_when = "An Awareness or Streetwise roll on the road, or any careful check for a tail. She can be spotted, shaken or spoken to."
+
+[clocks.deadline]
+name = "Delivery by 03:00"
+segments = 15
+per_minutes = 15
+public = true
+on_full = "It is 03:00. The Sheriff's raid hits St. Brigid's whether or not the box is there. Agnes will blame Alex if she survives, and Voss will call the contract broken."
+
+[clocks.sheriff_attention]
+name = "The Sheriff's attention"
+segments = 6
+on_full = "The Sheriff stops watching and acts. Rook, or someone worse, comes for Alex and the box directly."
+
+[clocks.masquerade]
+name = "Masquerade heat"
+segments = 6
+on_full = "Mortal police or the press connect something to Alex. The court notices, and every Kindred ally goes quiet."
+
+[threads.deliver]
+text = "Deliver the box to Sister Agnes before 03:00"
+public = true
+
+[threads.fee]
+text = "Voss owes the other half of the fee"
+public = true

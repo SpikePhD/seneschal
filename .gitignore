@@ -1,0 +1,5 @@
+.env
+.seneschal/
+playtests/
+__pycache__/
+*.pyc

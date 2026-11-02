@@ -1,0 +1,8 @@
+name = "Rook"
+description = "A rangy woman in a rain shell who is easy to forget, until she is standing closer than she was."
+personality = "Patient, professional, faintly amused, and not cruel without a reason"
+motive = "Catch a thief for the Sheriff and earn her own domain"
+plan = "Tail the courier at a distance and report any stop to the Sheriff"
+voice = "Low and friendly, like someone who already knows the answer."
+attitude = "Sees the courier as a job, not an enemy"
+knows = ["The Sheriff was tipped off that stolen vitae is moving tonight", "The courier's face and car"]
